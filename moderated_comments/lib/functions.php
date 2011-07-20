@@ -7,13 +7,13 @@
 function moderated_comments_check($event, $object_type, $obj){
 	global $CONFIG;
 	
-	if(moderated_comments_is_moderated($obj->entity_guid) && !isloggedin()){
+	if($obj->name == "generic_comment" && moderated_comments_is_moderated($obj->entity_guid) && !isloggedin()){
 		$entity = get_entity($obj->entity_guid);
 		if($entity->owner_guid != get_loggedin_userid()){
 			moderated_comments_add_to_review_list($obj);
+			system_message(elgg_echo('moderated_comments:comment_success'));
 		}
 	}
-
 }
 
 
@@ -38,8 +38,6 @@ function moderated_comments_add_to_review_list($obj){
 
 	// save the new array
 	moderated_comments_save_array($review_array, $entity);
-
-	system_message(elgg_echo('moderated_comments:comment_success'));
 }
 
 //
@@ -69,7 +67,7 @@ function moderated_comments_is_moderated($id){
 		return false;
 	}
 	
-	if($entity->is_moderated){
+	if($entity->is_moderated || $entity->access_id == ACCESS_PUBLIC){
 		return true;
 	}
 	
@@ -116,15 +114,6 @@ function moderated_comments_comment_count($hook, $type, $returnvalue, $params){
 			}
 		}
 		
-		// careful here, it won't accept 0, considered false
-		// and defaults to the actual count
-		// wrap 0 in span tags so it renders properly but passes the !empty() test
-		// not my ideal solution, because something may want to do math with it
-		// it feels like an ugly hack, but I don't think the Elgg devs considered
-		// that 0 might be a legit return value.
-		// but it works for our purpose...
-		// ticket submitted to elgg devs, fixed for 1.7.9
-		if($count == 0) { $count = "<span>0</span>"; }
 		return $count;
 	}
 }
