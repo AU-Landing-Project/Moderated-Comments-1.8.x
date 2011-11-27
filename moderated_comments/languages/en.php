@@ -1,8 +1,8 @@
 <?php
 
 	$english = array(
-		'moderated_comments:comment_success' => "Your comment has been sent for review.  Thank you for your input.",
-		'moderated_comments:comment_text' => "This comment has not yet been approved, and is visible only to you as the owner of this content.  Please approve or delete this comment using the links below, or if there are many unreviewed comments you can use the checkboxes to approve a batch of comments.",
+		'moderated_comments:comment_success' => "Your comment has been sent for review. Thank you for your input.",
+		'moderated_comments:comment_text' => "This comment has not yet been approved, and is visible only to you as the owner of this content. Please approve or delete this comment using the links below, or if there are many unreviewed comments you can use the checkboxes to approve a batch of comments.",
 		'moderated_comments:delete_confirm' => "This action cannot be undone, are you sure you want to delete this/these comment(s)?",
 		'moderated_comments:approved' => "Selected comments have been approved.",
 		'moderated_comments:deleted' => "Selected comments have been deleted.",
@@ -45,5 +45,3 @@ You cannot reply to this email.",
 	);
 					
 	add_translation("en",$english);
-
-?>
