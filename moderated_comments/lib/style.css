@@ -15,6 +15,11 @@
 	margin-top: 10px;
 }
 
+.generic_comment_icon {
+	display: block;
+	width: 40px;	
+}
+
 .moderate_options {
 	margin-top: 15px;	
 }

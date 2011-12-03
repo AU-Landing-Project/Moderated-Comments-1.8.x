@@ -48,12 +48,7 @@ if(!in_array($vars['annotation']->id, $review_array) || $can_see_unapproved || !
 	<!-- start of generic_comment div -->
 	<div class="generic_comment_icon">
 	<?php
-	echo elgg_view("profile/icon",
-	array(
-					'entity' => $owner,
-					'size' => 'small'
-					)
-					);
+	echo elgg_view_entity_icon($owner, 'small');
 					?>
 	</div>
 	<div class="generic_comment_details">
