@@ -8,7 +8,7 @@
  * 		to properly submit approve/delete
  *
  */
-
+elgg_load_js('moderated_comments');
 
 if($vars['annotation_name'] == "generic_comment" && is_numeric($vars['guid'])){
 
@@ -60,28 +60,6 @@ if($mc_notice_count != 1){
 		<?php
 	} 
 
-/*
- * Remove option to toggle moderation
- *
-	if($vars['entity']->owner_guid == get_loggedin_userid() && $vars['entity']->access_id != ACCESS_PUBLIC){
-		echo "<div class=\"mc_moderation_control\">";
-		echo "<form action=\"" . $vars['url'] . "mod/moderated_comments/actions/entity/moderate_toggle.php\" method=\"post\">";
-
-		if(moderated_comments_is_moderated($entity_guid)){
-			$value = elgg_echo('moderated_comments:disable');
-			$action = "off";
-		}
-		else{
-			$value = elgg_echo('moderated_comments:enable');
-			$action = "on";
-		}
-		echo "<input type=\"hidden\" name=\"id\" value=\"$entity_guid\">";
-		echo "<input type=\"hidden\" name=\"action\" value=\"$action\">";
-		echo "<input type=\"submit\" value=\"$value\">";
-		echo "</form>";
-		echo "</div>";
-	}
-*/ 
 	if(moderated_comments_is_moderated($entity_guid) && !isloggedin()){
 		echo "<div style=\"clear: both\">" . elgg_echo('moderated_comments:moderated_notice') . "</div>";
 	}
@@ -95,9 +73,3 @@ if($mc_notice_count != 1){
 	<?php
 } // end if $mc_notice_count
 }
-
-//echo "<pre>";
-//echo print_r($vars);
-//echo "</pre>";
-//var_dump($vars);
-?>

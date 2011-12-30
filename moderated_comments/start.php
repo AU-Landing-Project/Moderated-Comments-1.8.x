@@ -14,29 +14,23 @@ function moderated_comments_init() {
 	global $CONFIG;
 
 	// Extend system CSS with our own styles
-	elgg_extend_view('metatags','moderated_comments/metatags');
+	elgg_extend_view('css','moderated_comments/css');
+	elgg_register_js('moderated_comments', elgg_get_site_url() . "mod/moderated_comments/js/javascript.js");
 
 	// Load the language file
 	register_translations($CONFIG->pluginspath . "moderated_comments/languages/");
 
 	//register action to approve/delete comments
-	register_action("annotation/review", true, $CONFIG->pluginspath . "moderated_comments/actions/annotation/review.php");
-
-	//register action to toggle moderation
-	register_action("entity/moderate_toggle", true, $CONFIG->pluginspath . "moderated_comments/actions/entity/moderate_toggle.php");
-
-	// register action to replace core actions/comments/add.php - have to in order to modify notification  :(
-	register_action("comments/add", false, $CONFIG->pluginspath . "moderated_comments/actions/comments/add.php");
+	elgg_register_action("annotation/review", elgg_get_plugins_path() . "moderated_comments/actions/annotation/review.php");
+	elgg_register_action("comments/anon_add", elgg_get_plugins_path() . "moderated_comments/actions/comments/anon_add.php", 'public');
 	
 	// register plugin hook to monitor comment counts - return only the count of approved comments
-	register_plugin_hook('comments:count', 'all', 'moderated_comments_comment_count', 1000); 
+	elgg_register_plugin_hook_handler('comments:count', 'all', 'moderated_comments_comment_count', 1000); 
 	
     // override permissions for the rssimport_cron context
-	register_plugin_hook('permissions_check', 'all', 'moderated_comments_permissions_check');	
+	elgg_register_plugin_hook_handler('permissions_check', 'all', 'moderated_comments_permissions_check');	
 }
 
-
-global $CONFIG;
 
 // call init
 register_elgg_event_handler('init','system','moderated_comments_init');

@@ -1,0 +1,8 @@
+Changelog
+
+12/29/2011
+Fixed issue with unmoderated comments showing in the river
+Upgraded some functions for better 1.8 compatibility
+Removed some superfluous files
+
+Note - if upgrading to 1.3 completely remove previous version

@@ -6,7 +6,6 @@
  *
  * 		Checks in place to make sure the user is logged in, and has permission to moderate
  */
-
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))) . "/engine/start.php");
 
 gatekeeper(); // must be logged in
@@ -53,6 +52,13 @@ if($_REQUEST['method'] == "delete"){
 		$annotation->delete();
 	}
 	system_message(elgg_echo('moderated_comments:deleted'));
+}
+else{
+  // not deleting so we need to add them back into the river when they were posted
+  foreach($mc_comment_array as $comment_id){
+    $comment = elgg_get_annotation_from_id($comment_id);
+    add_to_river('river/annotation/generic_comment/create', 'comment', $comment->owner_guid, $comment->entity_guid, "", $comment->time_created, $comment_id);
+  }
 }
 
 // set a system message
