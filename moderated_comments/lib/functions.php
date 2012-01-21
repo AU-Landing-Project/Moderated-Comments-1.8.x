@@ -5,11 +5,10 @@
 //	if so adds to moderation list
 //
 function moderated_comments_check($event, $object_type, $obj){
-	global $CONFIG;
 	
-	if($obj->name == "generic_comment" && moderated_comments_is_moderated($obj->entity_guid) && !isloggedin()){
+	if($obj->name == "generic_comment" && moderated_comments_is_moderated($obj->entity_guid) && !elgg_is_logged_in()){
 		$entity = get_entity($obj->entity_guid);
-		if($entity->owner_guid != get_loggedin_userid()){
+		if($entity->owner_guid != elgg_get_logged_in_user_guid()){
 			moderated_comments_add_to_review_list($obj);
 			system_message(elgg_echo('moderated_comments:comment_success'));
 		}
@@ -21,7 +20,6 @@ function moderated_comments_check($event, $object_type, $obj){
 //	this function adds the new comment id to the list that needs to be checked
 //
 function moderated_comments_add_to_review_list($obj){
-	global $CONFIG;
 
 	$entity = get_entity($obj->entity_guid);
 	
@@ -44,8 +42,8 @@ function moderated_comments_add_to_review_list($obj){
 //	this function saves the array as a list of ids separated by commas
 //
 function moderated_comments_save_array($review_array, $entity){
-	$context = get_context();
-	set_context('moderated_comments');
+	$context = elgg_get_context();
+	elgg_set_context('moderated_comments_permissions');
 	sort($review_array);
 	//convert new array back into a list
 	$review_list = implode(',', $review_array);
@@ -53,7 +51,7 @@ function moderated_comments_save_array($review_array, $entity){
 	//save the list
 	$entity->unmoderated_comments = $review_list;
 	
-	set_context($context);
+	elgg_set_context($context);
 }
 
 
@@ -121,8 +119,8 @@ function moderated_comments_comment_count($hook, $type, $returnvalue, $params){
 
 // permissions check
 function moderated_comments_permissions_check(){
-	$context = get_context();
-	if($context == "moderated_comments"){
+	$context = elgg_get_context();
+	if($context == "moderated_comments_permissions"){
 		return true;
 	}
 	

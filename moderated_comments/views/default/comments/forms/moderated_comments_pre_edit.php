@@ -19,7 +19,7 @@ $entity = get_entity($entity_guid);
 // that modifies the default count to only include visible comments
 $tmpcommentcount = $entity->getAnnotations('generic_comment');
 $real_comment_num = count($tmpcommentcount);
-$visible_comment_count = elgg_count_comments($entity);
+$visible_comment_count = $entity->countComments();
 
 $comments_to_moderate = $real_comment_num - $visible_comment_count;
 
@@ -28,12 +28,12 @@ if($mc_notice_count != 1){
 	$mc_notice_count = 1;
 	
 
-	if((moderated_comments_is_moderated($entity_guid) && !isloggedin()) || (moderated_comments_is_moderated($entity_guid) && $comments_to_moderate > 0 && $entity->owner_guid == get_loggedin_userid())){
+	if((moderated_comments_is_moderated($entity_guid) && !elgg_is_logged_in()) || (moderated_comments_is_moderated($entity_guid) && $comments_to_moderate > 0 && $entity->owner_guid == elgg_get_logged_in_user_guid())){
 		echo "<div class=\"generic_comment mc_notice\">";
 	}
 
 
-	if(get_loggedin_userid() == $entity->owner_guid && moderated_comments_is_moderated($entity_guid) && $comments_to_moderate > 0){
+	if(elgg_get_logged_in_user_guid() == $entity->owner_guid && moderated_comments_is_moderated($entity_guid) && $comments_to_moderate > 0){
 		?>
 <div class="mc_moderation_control">
 	<form id="mcApprovalForm"
@@ -60,11 +60,11 @@ if($mc_notice_count != 1){
 		<?php
 	} 
 
-	if(moderated_comments_is_moderated($entity_guid) && !isloggedin()){
+	if(moderated_comments_is_moderated($entity_guid) && !elgg_is_logged_in()){
 		echo "<div style=\"clear: both\">" . elgg_echo('moderated_comments:moderated_notice') . "</div>";
 	}
 
-	if((moderated_comments_is_moderated($entity_guid) && !isloggedin()) || (moderated_comments_is_moderated($entity_guid) && $comments_to_moderate > 0 && $entity->owner_guid == get_loggedin_userid())){
+	if((moderated_comments_is_moderated($entity_guid) && !elgg_is_logged_in()) || (moderated_comments_is_moderated($entity_guid) && $comments_to_moderate > 0 && $entity->owner_guid == elgg_get_logged_in_user_guid())){
 		echo "<div class=\"mc_clear_div\"></div>";
 		echo "</div>";
 	}

@@ -21,7 +21,7 @@ $review_array = explode(',', $mc_entity->unmoderated_comments);
 // find out if our logged in user is the owner of the entity
 $entity_owner_id = $mc_entity->owner_guid;
 
-if(get_loggedin_userid() == $entity_owner_id){ // user IS the owner - they can see and approve comments
+if(elgg_get_logged_in_user_guid() == $entity_owner_id){ // user IS the owner - they can see and approve comments
 	//set a flag
 	$can_see_unapproved = TRUE;
 }
@@ -72,7 +72,7 @@ if(!in_array($vars['annotation']->id, $review_array) || $can_see_unapproved || !
 		<?php
 
 		echo elgg_view("output/confirmlink",array(
-					'href' => $vars['url'] . "action/comments/delete?annotation_id=" . $vars['annotation']->id,
+					'href' => elgg_get_site_url() . "action/comments/delete?annotation_id=" . $vars['annotation']->id,
 					'text' => elgg_echo('delete'),
 					'confirm' => elgg_echo('deleteconfirm'),
 		));
@@ -97,9 +97,9 @@ if(!in_array($vars['annotation']->id, $review_array) || $can_see_unapproved || !
 			echo "</td><td>";
 			echo elgg_echo('moderated_comments:comment_text');
 			echo "<br><br>";
-			echo "<a href=\"" . $vars['url'] . "mod/moderated_comments/actions/annotation/review.php?id=" . $vars['annotation']->id . "&method=approve\">Approve</a>";
+			echo "<a href=\"" . elgg_get_site_url() . "mod/moderated_comments/actions/annotation/review.php?id=" . $vars['annotation']->id . "&method=approve\">Approve</a>";
 			echo "&nbsp;&nbsp;|&nbsp;&nbsp;";
-			echo "<a href=\"" . $vars['url'] . "mod/moderated_comments/actions/annotation/review.php?id=" . $vars['annotation']->id . "&method=delete\" onclick=\"return confirm('". elgg_echo('moderated_comments:delete_confirm') . "')\";>Delete</a>";
+			echo "<a href=\"" . elgg_get_site_url() . "mod/moderated_comments/actions/annotation/review.php?id=" . $vars['annotation']->id . "&method=delete\" onclick=\"return confirm('". elgg_echo('moderated_comments:delete_confirm') . "')\";>Delete</a>";
 			echo "</td></tr></table>";
 			echo "</div>";
 		}

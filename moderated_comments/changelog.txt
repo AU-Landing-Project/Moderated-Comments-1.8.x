@@ -1,4 +1,6 @@
 Changelog
+01/21/12
+Upgraded deprecated functions for 1.8.3
 
 12/29/2011
 Fixed issue with unmoderated comments showing in the river
